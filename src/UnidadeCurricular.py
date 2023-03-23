@@ -127,14 +127,14 @@ class UnidadeCurricular:
 		"""
 
 		# Essa parte do código levanta uma exceção caso não seja uma lista.
-		if not isinstance(pre_requisitos, (list, None)):
+		if not isinstance(pre_requisitos, (list)):
 			raise UnidadeCurricularException("PreRequisitosNotList", "Os pré-requisitos não são uma lista")
 
 		# Essa parte do código leavnta uma exceção caso os pré-requisitos sejam uma lista,
 		# mas nem todos os seus itens forem instâncias da classe UnidadeCurricular.
 		elif not all(isinstance(pre_requisito, UnidadeCurricular) for pre_requisito in pre_requisitos):
 			raise UnidadeCurricularException("NotAllPreRequisitosAreUnidadeCurricular",
-				                             "Nem todos os pré-requisitos são instancias de UnidadeCurricular")
+				                             "Nem todos os pré-requisitos são instâncias de UnidadeCurricular")
 
 		self._pre_requisitos = list(pre_requisitos)
 

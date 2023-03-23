@@ -10,13 +10,5 @@ Programa em CLI desenvolvido em Python para estudantes da UFMS poderem ver quais
 ```bash
     ~$ git clone https://github.com/mShynji/verificador-materias-optativas.git
     ~$ cd verificador-materias-optativas/
-   	~$ python3 main.py
+    ~$ python3 main.py
 ```
-
-## Como usar
-How do you use it?
-
----
-## Créditos
-Credits where credits are due.
-

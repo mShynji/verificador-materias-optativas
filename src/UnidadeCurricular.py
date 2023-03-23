@@ -128,7 +128,7 @@ class UnidadeCurricular:
 
 		# Essa parte do código levanta uma exceção caso não seja uma lista.
 		if not isinstance(pre_requisitos, (list, None)):
-			raise UnidadeCurricularException("PreRequisitosNotList", "Os pré-requisitos não são uma lista"):
+			raise UnidadeCurricularException("PreRequisitosNotList", "Os pré-requisitos não são uma lista")
 
 		# Essa parte do código leavnta uma exceção caso os pré-requisitos sejam uma lista,
 		# mas nem todos os seus itens forem instâncias da classe UnidadeCurricular.
@@ -147,7 +147,7 @@ class UnidadeCurricular:
 		"""
 
 		# Essa parte do código levanta uma exceção caso o valor não seja booleano.
-		is not isinstance(optativa, bool):
+		if not isinstance(optativa, bool):
 			raise UnidadeCurricularException("OptativaNotBool", "Matéria precisa ser optativa ou não.")
 
 		self._optativa = optativa

@@ -9,7 +9,7 @@ A classe UnidadeCurricularException é utilizada para levantar uma exceção no 
 class UnidadeCurricular:
 	unidades_curriculares = [] # lista estática para guardar todas as unidades curriculares instanciadas durante a execução.
 
-	def __init__(self, nome:str, carga_horaria:int, pre_requisitos:list["UnidadeCurricular"]) -> None:
+	def __init__(self, nome:str, carga_horaria:int, pre_requisitos:list["UnidadeCurricular"], optativa:bool="False") -> None:
 		"""
 		Construtor da classe.
 		Retorno: (None).
@@ -22,6 +22,7 @@ class UnidadeCurricular:
 		self.nome(nome)
 		self.carga_horaria(carga_horaria)
 		self.pre_requisitos(pre_requisitos)
+		self.optativa(optativa) # Assume que não é optativa por default
 
 		UnidadeCurricular.unidades_curriculares.append(self)
 			
@@ -79,6 +80,15 @@ class UnidadeCurricular:
 		Retorno: (list["UnidadeCurricular"]) pré-requisitos do curso.
 		"""
 		return self._pre_requisitos
+
+
+	@property
+	def optativa(self) -> bool:
+		"""
+		Getter para verificar se a matéria é optativa ou não.
+		Retorno: (bool) True se matéria for optativa. False se não for.
+		"""
+		return self._optativa
 	
 	
 	@nome.setter
@@ -129,6 +139,20 @@ class UnidadeCurricular:
 		self._pre_requisitos = list(pre_requisitos)
 
 
+	@optativa.setter
+	def optativa(self, optativa:bool) -> None:
+		"""
+		Setter para saber se a matéria é optativa ou não.
+		Retorno: (None)
+		"""
+
+		# Essa parte do código levanta uma exceção caso o valor não seja booleano.
+		is not isinstance(optativa, bool):
+			raise UnidadeCurricularException("OptativaNotBool", "Matéria precisa ser optativa ou não.")
+
+		self._optativa = optativa
+
+
 	def is_pre_requisito(self, pre_requisito:"UnidadeCurricular") -> bool:
 		"""
 		Método para verificar se um pré-requisito já faz parte dos pré-requisitos da matéria.
@@ -142,7 +166,7 @@ class UnidadeCurricular:
 		Método para adicionar pré-requisito para a lista de pré-requisitos de uma unidade.
 		Retorno: (bool) Verdadeiro, caso consiga. Falso, caso não consiga.
 		"""
-		
+
 		# Essa parte do código levanta uma exceção caso o pré-requisito a ser adicionado não
 		# seja uma instância da classe UnidadeCurricular.
 		if not isinstance(pre_requisito, UnidadeCurricular):

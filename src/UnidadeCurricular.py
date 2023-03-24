@@ -1,4 +1,4 @@
-from UnidadeCurricularException import UnidadeCurricularException
+from src.UnidadeCurricularException import UnidadeCurricularException
 
 """
 Este arquivo contém uma classe que representa uma única unidade curricular.
@@ -9,7 +9,7 @@ A classe UnidadeCurricularException é utilizada para levantar uma exceção no 
 class UnidadeCurricular:
 	unidades_curriculares = [] # lista estática para guardar todas as unidades curriculares instanciadas durante a execução.
 
-	def __init__(self, nome:str, carga_horaria:int, pre_requisitos:list["UnidadeCurricular"], optativa:bool="False") -> None:
+	def __init__(self, nome:str, carga_horaria:int, pre_requisito:"UnidadeCurricular", optativa:bool="False") -> None:
 		"""
 		Construtor da classe.
 		Retorno: (None).
@@ -19,10 +19,10 @@ class UnidadeCurricular:
 		if UnidadeCurricular.find_unidade_curricular_by_nome(nome):
 			raise UnidadeCurricularException("UnidadeCurricularExists", "A unidade curricular já existe")
 
-		self.nome(nome)
-		self.carga_horaria(carga_horaria)
-		self.pre_requisitos(pre_requisitos)
-		self.optativa(optativa) # Assume que não é optativa por default
+		self.nome = nome
+		self.carga_horaria = carga_horaria
+		self.pre_requisito = pre_requisito
+		self.optativa = optativa # Assume que não é optativa por default
 
 		UnidadeCurricular.unidades_curriculares.append(self)
 			
@@ -48,7 +48,7 @@ class UnidadeCurricular:
 		# Essa parte do código assume que cada unidade curricular vai ter um nome único.
 		# Caso, de algum jeito, tenham duas unidades com o mesmo nome, este método só retorna a primeira.
 		for unidade_curricular in unidades_curriculares:
-			if unidade_curricular.nome() == nome:
+			if unidade_curricular.nome == nome:
 				return unidade_curricular
 
 		# Caso a unidade não exista, retorna nulo.
@@ -74,12 +74,12 @@ class UnidadeCurricular:
 
 
 	@property
-	def pre_requisitos(self) -> list["UnidadeCurricular"]:
+	def pre_requisito(self) -> "UnidadeCurricular":
 		"""
 		Getter para a lista de pré-requisitos.
-		Retorno: (list["UnidadeCurricular"]) pré-requisitos do curso.
+		Retorno: ("UnidadeCurricular") pré-requisito do curso.
 		"""
-		return self._pre_requisitos
+		return self._pre_requisito
 
 
 	@property
@@ -119,24 +119,18 @@ class UnidadeCurricular:
 		self._carga_horaria = carga_horaria
 
 
-	@pre_requisitos.setter
-	def pre_requisitos(self, pre_requisitos:list["UnidadeCurricular"]) -> None:
+	@pre_requisito.setter
+	def pre_requisito(self, pre_requisito:"UnidadeCurricular") -> None:
 		"""
 		Setter para os pré-requisitos da unidade.
 		Retorno: (None).
 		"""
 
 		# Essa parte do código levanta uma exceção caso não seja uma lista.
-		if not isinstance(pre_requisitos, (list)):
-			raise UnidadeCurricularException("PreRequisitosNotList", "Os pré-requisitos não são uma lista")
+		if not isinstance(pre_requisitos, UnidadeCurricular):
+			raise UnidadeCurricularException("PreRequisitoNotUnidadeCurricular", "O pré-requisito não é uma instância de UnidadeCurricular")
 
-		# Essa parte do código leavnta uma exceção caso os pré-requisitos sejam uma lista,
-		# mas nem todos os seus itens forem instâncias da classe UnidadeCurricular.
-		elif not all(isinstance(pre_requisito, UnidadeCurricular) for pre_requisito in pre_requisitos):
-			raise UnidadeCurricularException("NotAllPreRequisitosAreUnidadeCurricular",
-				                             "Nem todos os pré-requisitos são instâncias de UnidadeCurricular")
-
-		self._pre_requisitos = list(pre_requisitos)
+		self._pre_requisito = pre_requisito
 
 
 	@optativa.setter
@@ -158,43 +152,4 @@ class UnidadeCurricular:
 		Método para verificar se um pré-requisito já faz parte dos pré-requisitos da matéria.
 		Retorno: (bool) Verdadeiro, caso seja. False, caso não seja.
 		"""
-		return pre_requisito in self.pre_requisitos()
-
-
-	def add_pre_requisito(self, pre_requisito:"UnidadeCurricular") -> bool:
-		"""
-		Método para adicionar pré-requisito para a lista de pré-requisitos de uma unidade.
-		Retorno: (bool) Verdadeiro, caso consiga. Falso, caso não consiga.
-		"""
-
-		# Essa parte do código levanta uma exceção caso o pré-requisito a ser adicionado não
-		# seja uma instância da classe UnidadeCurricular.
-		if not isinstance(pre_requisito, UnidadeCurricular):
-			raise UnidadeCurricularException("PreRequisitoNotUnidadeCurricular",
-											 "O pré-requisito não é ums instância de UnidadeCurricular")
-
-		# Essa parte verifica se o pré-requisito já faz parte dos pré-requisitos.
-		if not self.is_pre_requisito(pre_requisito):
-			self._pre_requisitos.append(pre_requisito)
-			return True
-
-		return False
-
-	def rem_pre_requisito(self, pre_requisito:"UnidadeCurricular") -> bool:
-		"""
-		Método para remover pré-requisito para a lista de pré-requisitos de uma unidade.
-		Retorno: (bool) Verdadeiro, caso consiga. Falso, caso não consiga.
-		"""
-
-		# Essa parte do código levanta uma exceção caso o pré-requisito a ser adicionado não
-		# seja uma instância da classe UnidadeCurricular.
-		if not isinstance(pre_requisito, UnidadeCurricular):
-			raise UnidadeCurricularException("PreRequisitoNotUnidadeCurricular",
-											 "O pré-requisito não é ums instância de UnidadeCurricular")
-
-		# Essa parte verifica se o pré-requisito já faz parte dos pré-requisitos.
-		if self.is_pre_requisito(pre_requisito):
-			self.pre_requisitos.remove(pre_requisito)
-			return True
-
-		return False
+		return pre_requisito == self.pre_requisito

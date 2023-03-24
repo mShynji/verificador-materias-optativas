@@ -17,7 +17,7 @@ class UnidadeCurricular:
 
 		# Essa parte levanta uma exceção caso exista outra unidade curricular com o mesmo nome.
 		if UnidadeCurricular.find_unidade_curricular_by_nome(nome):
-			raise UnidadeCurricularException("UnidadeCurricularExists", "A unidade curricular já existe")
+			raise UnidadeCurricularException("UnidadeCurricularExists", f"A unidade curricular '{nome}' já existe")
 
 		self.nome = nome
 		self.carga_horaria = carga_horaria

@@ -126,8 +126,9 @@ class UnidadeCurricular:
 		Retorno: (None).
 		"""
 
-		# Essa parte do código levanta uma exceção caso não seja uma lista.
-		if not isinstance(pre_requisitos, UnidadeCurricular):
+		# Essa parte do código verifica se o pré-requisito é uma unidade curricular ou None.
+		if not isinstance(pre_requisito, (UnidadeCurricular, type(None))):
+			print(f"{pre_requisito} + {type(pre_requisito)}")
 			raise UnidadeCurricularException("PreRequisitoNotUnidadeCurricular", "O pré-requisito não é uma instância de UnidadeCurricular")
 
 		self._pre_requisito = pre_requisito

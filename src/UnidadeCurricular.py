@@ -27,6 +27,10 @@ class UnidadeCurricular:
 		UnidadeCurricular.unidades_curriculares.append(self)
 			
 
+	def __str__(self) -> str:
+		return f"{'(OPT)' if self.optativa else '(OBG)'} Nome={self.nome[:30]:<32} CargaHoraria={(str(self.carga_horaria)+'h'):<6} Pre-Requisito={(self.pre_requisito.nome[0:30] if self.pre_requisito else 'Nenhum'):<32}"
+
+
 	@staticmethod
 	def get_all_unidades_curriculares() -> list["UnidadeCurricular"]:
 		"""

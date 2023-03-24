@@ -100,7 +100,8 @@ def get_unidades_curriculares_from_curso(codigo:int) -> list["UnidadeCurricular"
 			# Alguns cursos tem unidades com nomes duplicados? Tipo SI (1907).
 			except UnidadeCurricularException as e:
 				print(f"Excessão em: {nome}")
-				print(f"{e.valor}: {e.message}\n")
+				print(f"{e.valor}: {e.message}")
+				print("pulando...\n\n")
 
 			finally:
 				continue

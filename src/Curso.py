@@ -1,81 +1,180 @@
-import src.RequestHandler as RH
-from src.CursoException import CursoException
-from src.RequestException import RequestException
-from src.UnidadeCurricular import UnidadeCurricular
+# Imports locais
+from CursoException import CursoException
+from UnidadeCurricular import UnidadeCurricular
 
-"""
-Este arquivo contém uma classe que representa um único curso .
-A classe curso tem um código e uma lista contendo as unidades curriculares relacionadas ao curso.
-A classe CursoException é utilizada para levantar exeções no código.
-
-O módulo RequestHandler lida com a conexão ao sistema da UFMS.
-"""
 
 class Curso:
-	def __init__(self, codigo:int) -> None:
-		"""
-		Construtor da classe.
-		Retorno: (None).
-		"""
+    '''
+    Este arquivo contém a classe do curso, responsável por armazenar suas respectivas
+    unidades curriculares para consulta.
 
-		# Essa parte do código verifica se o curso existe.
-		if not RH.find_curso_by_id(codigo):
-			raise RequestException("CursoNotFound", f"O curso com código {codigo} não existe")
-
-		# Essa parte do código busca todas as matérias do curso listadas no sistema. (ensino.ufms.br)
-		unidades_curriculares = RH.get_unidades_curriculares_from_curso(codigo)
-
-		self.codigo = codigo
-		self.unidades_curriculares = unidades_curriculares
+    Essa classe dispõe dos seguintes atributos: id, nome e matriz_curricular. O id é necessário
+    para obter as unidades curriculares no site da UFMS. O nome é utilizado para melhor identificação
+    por parte do usuário. A matriz_curricular guarda a relação das unidades curriculares do curso,
+    tanto cada unidade individualmente, bem como suas dependências, carga horária e afins.
+    '''
 
 
-	@property
-	def codigo(self) -> int:
-		"""
-		Getter do código do curso.
-		Retorno: (int) código do curso.
-		"""
-		return self._codigo
+    def __init__(self, id: int, nome: str, matriz_curricular: list["UnidadeCurricular"]) -> None:
+        '''
+        Construtor da classe Curso.
+
+        Parâmetros:
+        - id (int): Id do curso.
+        - nome (str): Nome do curso.
+        - matriz_curricular (list[UnidadeCurricular]): Matriz curricular do curso.
+
+        Retorno:
+        - None.
+        '''
+        self.id                = id
+        self.nome              = nome
+        self.matriz_curricular = matriz_curricular
 
 
-	@property
-	def unidades_curriculares(self) -> list["UnidadeCurricular"]:
-		"""
-		Getter das unidades curriculares do curso.
-		Retorno: (list["UnidadeCurricular"]) lista das unidades curriculares do curso.
-		"""
-		return self._unidades_curriculares
+    def __str__(self) -> str:
+        '''
+        Método chamado quando uma objeto da classe é chamado através do print().
+        
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - (str): Id e nome do curso.
+        '''
+        return f"({self.id}) {self.nome}"
+
+    
+    @property
+    def id(self) -> int:
+        '''
+        Getter para o id do curso.
+        
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - id (int): Id do curso.
+        '''
+        return self._id
 
 
-	@codigo.setter
-	def codigo(self, codigo:int) -> None:
-		"""
-		Setter do código do curso.
-		Retorno: (None);
-		"""
+    @id.setter
+    def id(self, id: int) -> None:
+        '''
+        Setter para o id do curso.
+        
+        Parâmetros:
+        - id (int): Id do curso.
+        
+        Retorno:
+        - None.
+        '''
+        if not isinstance(id, int):
+            raise CursoException("IdNotInt", "O Id do curso informado não é válido.")
+        
+        self._id = id
 
-		# Essa parte do código verifica se o código informado é um inteiro.
-		if not isinstance(codigo, int):
-			raise CursoException("CodigoNotInt", "O código não é um inteiro")
 
-		self._codigo = codigo
+    @property
+    def nome(self) -> str:
+        '''
+        Getter para o nome do curso.
+
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - nome (str): Nome do curso.
+        '''
+        return self._nome
 
 
-	@unidades_curriculares.setter
-	def unidades_curriculares(self, unidades_curriculares:list["UnidadeCurricular"]) -> None:
-		"""
-		Setter das unidades curriculares do curso.
-		Retorno: (None).
-		"""
+    @nome.setter
+    def nome(self, nome: str) -> None:
+        '''
+        Setter para o nome do curso.
 
-		# Essa parte do código verifica se as unidades são uma lista.
-		if not isinstance(unidades_curriculares, list):
-			raise CursoException("UnidadesCurricularesNotList", "As unidades curriculares não são uma lista")
+        Parâmetros:
+        - nome (str): Nome do curso.
+        
+        Retorno:
+        - None.
+        '''
+        if not isinstance(nome, str):
+            raise CursoException("NomeNotStr", "O nome do curso informado não é válido.")
 
-		# Essa parte do código verifica se todos os itens da lista são instâncias da classe UnidadeCurricular.
-		if not all(isinstance(unidade_curricular, UnidadeCurricular) for unidade_curricular in unidades_curriculares):
-			raise CursoException("NotAllUnidadesCurricularesAreInstanceOfUnidadeCurricular",
-								 "Nem todos os itens das unidades curriculares são instâncias da classe UnidadeCurricular")
+        if nome == "":
+            raise CursoException("NomeIsEmpty", "O nome do curso está vazio.")
 
-		self._unidades_curriculares = unidades_curriculares
-	
+        self._nome = nome
+
+    
+    @property
+    def matriz_curricular(self) -> list["UnidadeCurricular"]:
+        '''
+        Getter para a matriz curricular do curso.
+
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - matriz_curricular (list[UnidadeCurricular]): Matriz curricular do curso.
+        '''
+        return self._matriz_curricular
+
+    
+    @matriz_curricular.setter
+    def matriz_curricular(self, matriz_curricular: list["UnidadeCurricular"]) -> None:
+        '''
+        Setter para matriz curricular do curso.
+
+        Parâmetros:
+        - matriz_curricular (list[UnidadeCurricular]): Matriz curricular do curso.
+
+        Retorno:
+        - None.
+        '''
+        if not isinstance(matriz_curricular, list):
+            raise CursoException("UnidadesCurricularesInvalidas", "As unidades curriculares informadas são inválidas.")
+
+        if not all(isinstance(unidade_curricular, UnidadeCurricular) for unidade_curricular in matriz_curricular):
+            raise CursoException("UnidadesCurricularesInvalidas", "Nem todas as unidades curriculares são válidas.")
+
+        self._matriz_curricular = matriz_curricular
+
+    
+    def add_unidade_curricular(self, unidade_curricular: "UnidadeCurricular") -> None:
+        '''
+        Método que adiciona uma unidade curricular para a matriz do curso.
+
+        Parâmetros:
+        - unidade_curricular (UnidadeCurricular): Unidade a ser adicionada.
+
+        Retorno:
+        - None.
+        '''
+        if not isinstance(unidade_curricular, UnidadeCurricular):
+            raise CursoException("UnidadeCurricularInvalida", "A unidade curricular informada é inválida.")
+        
+        if unidade_curricular in self.matriz_curricular:
+            raise CursoException("UnidadeCurricularJaAdicionada", "A unidade curricular já está presente na matriz.")
+
+        self.matriz_curricular.append(unidade_curricular)
+
+    
+    def del_unidade_curricular(self, unidade_curricular: "UnidadeCurricular") -> None:
+        '''
+        Método para remover uma unidade curricular da matriz do curso.
+        
+        Parâmetros:
+        - unidade_curricular (UnidadeCurricular): Unidade a ser removida.
+
+        Retorno:
+        - None.
+        '''
+        if not isinstance(unidade_curricular, UnidadeCurricular):
+            raise CursoException("UnidadeCurricularInvalida", "A unidade curricular informada é inválida.")
+
+        if unidade_curricular in self.matriz_curricular:
+            self.matriz_curricular.remove(unidade_curricular)

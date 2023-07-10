@@ -57,7 +57,7 @@ class Curso:
         '''
         print(f"Curso: {f'{self}':<50}")
         print(f"Número de unidades curriculares: {len(self.matriz_curricular)}")
-        for index, unidade_curricular in enumerate(self.matriz_curricular):
+        for unidade_curricular in self.matriz_curricular:
             print(f"{f'{unidade_curricular}':<50}")
 
 

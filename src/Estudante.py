@@ -1,18 +1,16 @@
 # Imports locais
-from Curso import Curso
-from UnidadeCurricular import UnidadeCurricular
-from EstudanteException import EstudanteException
+from src.Curso import Curso
+from src.UnidadeCurricular import UnidadeCurricular
+from src.EstudanteException import EstudanteException
 
 
 class Estudante:
     '''
-    Este arquivo contém a classe do estudante. Além disso, essa classe tem a função de salvar os dados
-    em um arquivo .txt, como se fosse o "savefile" de um jogo.
-
-    Essa classe tem alguns atributos, como nome do estudante, o curso que está matriculado e uma lista das
-    unidades curriculares que está cursando. O nome do estudante é apenas um diferencial, para facilitar a
-    diferenciação entre os arquivos salvos localmente na máquina, enquanto o curso e as unidades cursadas servem
-    para cumprir o principal objetivo do código: verificar quais matérias optativas um estudante pode cursar.
+    Este arquivo contém a classe do estudante. Essa classe tem alguns atributos, como nome do estudante, o curso
+    que está matriculado e uma lista das unidades curriculares que está cursando. O nome do estudante é apenas
+    um diferencial, para facilitar a diferenciação entre os arquivos salvos localmente na máquina, enquanto o
+    curso e as unidades cursadas servem para cumprir o principal objetivo do código: verificar quais matérias
+    optativas um estudante pode cursar.
     '''
 
 
@@ -44,9 +42,9 @@ class Estudante:
         - None.
         '''
         print(f"Estudante: {self.nome:<50}")
-        print(f"Curso: {self.curso:<50}")
+        print(f"Curso: {f'{self.curso}':<50}")
         for index, unidade_curricular in enumerate(self.unidades_cursadas):
-            print(f"{unidade_curricular:<50}.")
+            print(f"{f'{unidade_curricular}':<50}")
 
 
     @property

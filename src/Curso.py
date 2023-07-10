@@ -1,6 +1,6 @@
 # Imports locais
-from CursoException import CursoException
-from UnidadeCurricular import UnidadeCurricular
+from src.CursoException import CursoException
+from src.UnidadeCurricular import UnidadeCurricular
 
 
 class Curso:
@@ -45,6 +45,22 @@ class Curso:
         return f"({self.id}) {self.nome}"
 
     
+    def printInfo(self) -> None:
+        '''
+        Método para printar as informações do curso:
+
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - None.
+        '''
+        print(f"Curso: {f'{self}':<50}")
+        print(f"Número de unidades curriculares: {len(self.matriz_curricular)}")
+        for index, unidade_curricular in enumerate(self.matriz_curricular):
+            print(f"{f'{unidade_curricular}':<50}")
+
+
     @property
     def id(self) -> int:
         '''

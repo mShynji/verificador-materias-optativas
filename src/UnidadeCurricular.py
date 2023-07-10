@@ -40,7 +40,7 @@ class UnidadeCurricular:
         Retorno:
         - (str): Nome e carga horária da unidade curricular.
         '''
-        return f"{self.nome} ({self.carga_horaria}h)"
+        return f"({'OBR' if self.obrigatoria else 'OPT'}) {self.nome} ({self.carga_horaria}h)"
 
 
     @property

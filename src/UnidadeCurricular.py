@@ -6,13 +6,13 @@ class UnidadeCurricular:
     '''
     Este arquivo contém a classe responsável por representar as unidades curriculares de um curso.
 
-    Essa classe tem os seguintes atributos: nome, carga_horaria e pre_requisitos. Estes são os elementos
+    Essa classe tem os seguintes atributos: nome, carga_horaria, pre_requisitos e obrigatoria. Estes são os elementos
     mínimos necessários para a aplicação, pois assim é possível representar a relação de dependência entre
     certas unidades e outras.
     '''
 
 
-    def __init__(self, nome: str, carga_horaria: int, pre_requisitos: list["UnidadeCurricular"]) -> None:
+    def __init__(self, nome: str, carga_horaria: int, pre_requisitos: list["UnidadeCurricular"], obrigatoria: bool) -> None:
         '''
         Construtor da classe UnidadeCurricular.
 
@@ -27,6 +27,7 @@ class UnidadeCurricular:
         self.nome           = nome
         self.carga_horaria  = carga_horaria
         self.pre_requisitos = pre_requisitos
+        self.obrigatoria    = obrigatoria
 
 
     def __str__(self) -> str:
@@ -143,6 +144,37 @@ class UnidadeCurricular:
             raise UCException("PreRequisitosInvalidos", "Nem todos os pré-requisitos para a unidade são válidos.")
 
         self._pre_requisitos = pre_requisitos
+
+
+    @property
+    def obrigatoria(self) -> bool:
+        '''
+        Getter para o status de obrigatoriedade da unidade curricular.
+
+        Parâmetros:
+        - None.
+
+        Retorno:
+        - obrigatoria (bool): Booleano que representa se a UC é obrigatória ou não.
+        '''
+        return self._obrigatoria
+
+
+    @obrigatoria.setter
+    def obrigatoria(self, obrigatoria: bool) -> None:
+        '''
+        Setter para o status de obrigatoriedade da unidade curricular.
+
+        Parâmetros:
+        - obrigatoria (bool): Booleano que representa se a UC é obrigatória ou não.
+
+        Retorno:
+        - None.
+        '''
+        if not isinstance(obrigatoria, bool):
+            raise UCException("ObrigatoriedadeNotBool", "A obrigatoriedade da unidade é inválida.")
+
+        self._obrigatoria = obrigatoria
 
 
     def add_pre_requisito(self, pre_requisito: "UnidadeCurricular") -> None:

@@ -17,6 +17,17 @@ def clear():
         _ = system("clear")
 
 
+def maisInformacoes():
+    print(f"{f' Mais informações ':*^50}")
+    print("")
+    print("Este programa foi desenvolvido como forma de matar tempo e forma de estudar")
+    print("orientação a objetos e python. Este projeto teve início no começo do ano letivo")
+    print("de 2023, quando ingressei na UFMS, porém só chegou a ser concluído no início")
+    print("do segundo semestre letivo de 2023.")
+    print("")
+    print("Créditos: @mShynji (https://github.com/mShynji?tab=repositories)")
+
+
 def main():
     '''
     A main é responsável por operar como o menu do usuário para cadastrar e carregar perfis. 
